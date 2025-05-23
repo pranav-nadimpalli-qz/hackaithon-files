@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCQ Short</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Open Sans", sans-serif;
+
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      background: #fdfbfb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      width: 400px;
+      height: 560px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      background: #f3eef9;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+    .question {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .option {
+      padding: 12px 16px;
+      margin: 8px 0;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #e7ddf2;
+    }
+    .option:hover {
+      background: #f1f1f1;
+    }
+    .option.correct {
+      background: #e6ffed;
+      border-color: #28a745;
+      color: #28a745;
+    }
+    .option.wrong {
+      background: #ffe6e6;
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+    .message {
+      margin-top: 16px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .message.success {
+      color: #28a745;
+    }
+    .message.error {
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="question">
+      Which feature is basically brain gym, helping students flex their memory muscles with repetition?
+    </div>
+    <div class="option" onclick="handleAnswer(this, false)">A. Assessment</div>
+    <div class="option" onclick="handleAnswer(this, false)">B. Interactive Video</div>
+    <div class="option" onclick="handleAnswer(this, true)">C. Flashcard</div>
+    <div class="option" onclick="handleAnswer(this, false)">D. Protein Shake</div>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    let answered = false;
+
+    function handleAnswer(elem, isCorrect) {
+      if (answered) return;
+      answered = true;
+
+      elem.classList.add(isCorrect ? "correct" : "wrong");
+
+      const msg = document.getElementById("message");
+      msg.classList.add("show");
+      msg.classList.add(isCorrect ? "success" : "error");
+      msg.textContent = isCorrect
+        ? "👏 Right on! Flashcards are great for memory retention — zero calories, 100% recall power."
+        : "❌ Nice try! The correct answer is Flashcard — the memory-boosting, repetition-loving brain gym of Quizizz!";
+    }
+  </script>
+</body>
+</html>
