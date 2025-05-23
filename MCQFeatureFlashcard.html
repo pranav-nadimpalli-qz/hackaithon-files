@@ -7,15 +7,14 @@
   <style>
     * {
       box-sizing: border-box;
-      font-family: "Open Sans", sans-serif;
-
+      font-family: "Poppins", sans-serif;  /* switched to Poppins for a fresh feel */
     }
     body {
       margin: 0;
-      padding: 0;
+      padding: 4px;
       height: 100vh;
       width: 100vw;
-      background: #fdfbfb;
+      background: #f8f5ff;                /* very light purple */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,30 +23,32 @@
       width: 400px;
       height: 560px;
       border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-      background: #f3eef9;
-      padding: 32px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+      background: #ffffff;                /* crisp white */
+      padding: 42px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: all 0.3s ease;
     }
     .question {
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       font-weight: 600;
+      color: #333333;                    /* dark charcoal */
       margin-bottom: 24px;
     }
     .option {
-      padding: 12px 16px;
+      padding: 14px 18px;
       margin: 8px 0;
       border: 2px solid #ddd;
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      background: #e7ddf2;
+      transition: background 0.3s ease, border-color 0.3s ease;
+      background: #f3edff;               /* pale purple */
+      color: #333333;
     }
     .option:hover {
-      background: #f1f1f1;
+      background: #e8dfff;               /* slightly deeper on hover */
     }
     .option.correct {
       background: #e6ffed;
@@ -55,7 +56,7 @@
       color: #28a745;
     }
     .option.wrong {
-      background: #ffe6e6;
+      background: #ffe8e8;
       border-color: #dc3545;
       color: #dc3545;
     }
@@ -64,7 +65,7 @@
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.4s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.4;
     }
     .message.show {
@@ -76,6 +77,25 @@
     }
     .message.error {
       color: #dc3545;
+    }
+    .explore-btn {
+      display: none;
+      margin-top: 24px;
+      padding: 14px;
+      border: none;
+      border-radius: 24px;
+      background: #7f5af0;               /* primary purple accent */
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .explore-btn:hover {
+      background: #6932c8;               /* deeper purple on hover */
+    }
+    .explore-btn.show {
+      display: block;
     }
   </style>
 </head>
@@ -89,27 +109,30 @@
     <div class="option" onclick="handleAnswer(this, true)">C. Flashcard</div>
     <div class="option" onclick="handleAnswer(this, false)">D. Protein Shake</div>
     <div id="message" class="message"></div>
+    <button id="explore-btn" class="explore-btn" onclick="exploreFeature()">
+      Create a flashcard now
+    </button>
   </div>
 
   <script>
-  function handleAnswer(elem, isCorrect) {
-    // Remove existing states from all options
-    const options = document.querySelectorAll('.option')
-    options.forEach(opt => {
-      opt.classList.remove('correct', 'wrong')
-    })
-
-    // Update message
-    const msg = document.getElementById('message')
-    msg.className = 'message show ' + (isCorrect ? 'success' : 'error')
-    msg.textContent = isCorrect
-      ? "👏 Right on! Flashcards are great for memory retention — zero calories, 100% recall power."
-      : "❌ Nice try! The correct answer is Flashcard — the memory-boosting, repetition-loving brain gym of Quizizz!"
-
-    // Mark selected
-    elem.classList.add(isCorrect ? 'correct' : 'wrong')
-  }
-</script>
-
+    let answered = false;
+    function handleAnswer(elem, isCorrect) {
+      if (answered) return;
+      answered = true;
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.classList.remove('correct','wrong');
+      });
+      elem.classList.add(isCorrect ? 'correct' : 'wrong');
+      const msg = document.getElementById('message');
+      msg.className = 'message show ' + (isCorrect ? 'success' : 'error');
+      msg.textContent = isCorrect
+        ? "👏 Right on! Flashcards are great for memory retention — zero calories, 100% recall power."
+        : "❌ Nice try! The correct answer is Flashcard — the memory-boosting, repetition-loving brain gym of Quizizz!";
+      document.getElementById('explore-btn').classList.add('show');
+    }
+    function exploreFeature() {
+      window.location.href = "https://quizizz.com/admin?createUsingAI=true&forLesson=false&forFlashcards=true";
+    }
+  </script>
 </body>
 </html>
